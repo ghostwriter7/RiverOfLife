@@ -1,6 +1,9 @@
 import { DatePipe } from '@angular/common'
 import { Component, OnInit } from '@angular/core';
 
+type Cell = { date: Date; state: CellState };
+type CellState = "success" | "failure" | "none";
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -10,9 +13,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  protected weeks: { date: Date, state: 'success' | 'failure' | 'none' }[][] = [];
+  protected weeks: Cell[][] = [];
 
   public ngOnInit(): void {
+    const storedWeeks = localStorage.getItem('weeks');
+    if (storedWeeks) {
+      try {
+        this.weeks = JSON.parse(storedWeeks) as Cell[][];
+      } catch (error) {
+        console.error('Failed to parse stored weeks');
+        console.error(error);
+        this.initializeWeeksFromScratch();
+      }
+    } else {
+      this.initializeWeeksFromScratch();
+    }
+  }
+
+  protected onCellClick(cell: Cell): void {
+    this.updateCellState(cell);
+    this.persistLogs();
+  }
+
+  private initializeWeeksFromScratch(): void {
     const temporaryStart = new Date(2025, 4, 5, 12, 0, 0);
     const numberOfWeeks = 25;
 
@@ -27,16 +50,20 @@ export class AppComponent implements OnInit {
             return { date, state: 'none' };
           });
       });
-
   }
 
-  protected onCellClick (day: { date: Date; state: "success" | "failure" | "none" }): void {
-    if (day.state === 'none') {
-      day.state = 'success';
-    } else if (day.state === 'success') {
-      day.state = 'failure';
+  private updateCellState(cell: Cell): void {
+    if (cell.state === 'none') {
+      cell.state = 'success';
+    } else if (cell.state === 'success') {
+      cell.state = 'failure';
     } else {
-      day.state = 'none';
+      cell.state = 'none';
     }
+  }
+
+  private persistLogs(): void {
+    const json = JSON.stringify(this.weeks);
+    localStorage.setItem('weeks', json);
   }
 }

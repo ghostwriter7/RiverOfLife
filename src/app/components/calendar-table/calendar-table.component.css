@@ -16,9 +16,8 @@ table {
   }
 
   & th, & td {
-    padding: 12px 16px;
     border-bottom: 1px solid var(--border);
-    width: 120px;
+    padding: 12px 16px;
   }
 
   & th {
@@ -26,7 +25,7 @@ table {
     font-size: 0.85rem;
     letter-spacing: 0.05em;
     color: var(--fg-muted);
-    text-align: left;
+    text-align: center;
   }
 
   & tbody {

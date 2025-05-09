@@ -1,0 +1,22 @@
+<dialog #details (close)="close()">
+  <div class="details"><h3>{{ currentCell()?.date | date: 'shortDate' }}</h3>
+    <form [formGroup]="form">
+      <label for="climbing">
+        Climbing Training
+        <input formControlName="climbing" type="checkbox" id="climbing">
+      </label>
+
+      <label for="sugar-free">
+        Sugar-Free Diet
+        <input formControlName="sugarFree" type="checkbox" id="sugar-free">
+      </label>
+
+      <label for="mental-hygiene">
+        Mental Hygiene
+        <input formControlName="mentalHealth" type="checkbox" id="mental-hygiene">
+      </label>
+    </form>
+
+    <button (click)="details.close()">Done</button>
+  </div>
+</dialog>

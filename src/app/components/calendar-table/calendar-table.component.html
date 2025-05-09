@@ -1,0 +1,22 @@
+<table>
+  <thead>
+  <tr>
+    <th>Mon</th>
+    <th>Tue</th>
+    <th>Wed</th>
+    <th>Thu</th>
+    <th>Fri</th>
+    <th>Sat</th>
+    <th>Sun</th>
+  </tr>
+  </thead>
+  <tbody>
+    @for (week of weeks(); track $index) {
+      <tr>
+        @for (day of week; track $index) {
+          <app-calendar-cell [cell]="day"/>
+        }
+      </tr>
+    }
+  </tbody>
+</table>

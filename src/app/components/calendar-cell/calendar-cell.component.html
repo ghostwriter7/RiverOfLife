@@ -1,0 +1,17 @@
+@let day = cell();
+<td
+  [class.success]="day.state === 'success'"
+  [class.failure]="day.state === 'failure'"
+  [class.odd]="day.isOdd"
+  (touchstart)="onTouchStart(day)"
+  (touchend)="onTouchEnd($event, day)"
+  (contextmenu)="onRightClick($event, day)"
+  (click)="onCellClick(day)">
+  <div class="cell">
+    <span>{{ day.date | date: 'd' }}</span>
+
+    @if (day.monthLabel) {
+      <span class="month-label">{{ day.monthLabel }}</span>
+    }
+  </div>
+</td>

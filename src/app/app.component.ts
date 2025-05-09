@@ -1,19 +1,44 @@
 import { DatePipe } from '@angular/common'
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, OnInit, signal, viewChild } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms'
 
-type Cell = { date: Date; isOdd: boolean; monthLabel?: string; state: CellState };
+type Cell = {
+  date: Date;
+  details: {
+    climbing: boolean;
+    sugarFree: boolean;
+    mentalHealth: boolean;
+  };
+  isOdd: boolean;
+  monthLabel?: string;
+  state: CellState
+};
 type CellState = "success" | "failure" | "none";
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-root',
   templateUrl: './app.component.html',
   imports: [
-    DatePipe
+    DatePipe,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
   protected weeks: Cell[][] = [];
+
+  protected readonly currentCell = signal<Cell | null>(null);
+  protected readonly form = new FormGroup({
+    climbing: new FormControl(false, { nonNullable: true }),
+    sugarFree: new FormControl(false, { nonNullable: true }),
+    mentalHealth: new FormControl(false, { nonNullable: true }),
+  });
+
+  private pointerPressMap = new Map<Cell, number>();
+
+  private readonly detailsDialog = viewChild<ElementRef<HTMLDialogElement>>('details');
 
   public ngOnInit(): void {
     const storedWeeks = localStorage.getItem('weeks');
@@ -50,7 +75,16 @@ export class AppComponent implements OnInit {
             date.setDate(temporaryStart.getDate() + (weekIndex * 7) + dayIndex);
             const month = date.getMonth();
 
-            const cell: Cell = { date, state: 'none', isOdd: month % 2 !== 0 };
+            const cell: Cell = {
+              date,
+              details: {
+                climbing: false,
+                sugarFree: false,
+                mentalHealth: false,
+              },
+              state: 'none',
+              isOdd: month % 2 !== 0
+            };
 
             if (month !== previousMonth) {
               previousMonth = month;
@@ -64,8 +98,10 @@ export class AppComponent implements OnInit {
 
   private updateCellState(cell: Cell): void {
     if (cell.state === 'none') {
+      Object.keys(cell.details).forEach((key) => cell.details[key as keyof Cell['details']] = true);
       cell.state = 'success';
     } else if (cell.state === 'success') {
+      Object.keys(cell.details).forEach((key) => cell.details[key as keyof Cell['details']] = false);
       cell.state = 'failure';
     } else {
       cell.state = 'none';
@@ -75,5 +111,36 @@ export class AppComponent implements OnInit {
   private persistLogs(): void {
     const json = JSON.stringify(this.weeks);
     localStorage.setItem('weeks', json);
+  }
+
+  protected onTouchStart(day: Cell): void {
+    this.pointerPressMap.set(day, Date.now());
+  }
+
+  protected onTouchEnd(event: TouchEvent, day: Cell): void {
+    const startTime = this.pointerPressMap.get(day);
+    if (startTime) {
+      this.pointerPressMap.delete(day);
+      const delta = Date.now() - startTime;
+      if (delta > 300) {
+        this.showDetails(event, day);
+      }
+    }
+  }
+
+  protected showDetails(event: Event, day: Cell): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.currentCell.set(day);
+    this.form.setValue(day.details);
+    this.detailsDialog()?.nativeElement.showModal();
+  }
+
+  protected onDetailsClose(): void {
+    const { value } = this.form;
+    const currentCell = this.currentCell()!;
+    currentCell.details = { ...value } as Required<typeof value>;
+    this.currentCell.set(null);
+    this.persistLogs();
   }
 }

@@ -1,25 +1,35 @@
-<table>
-  <thead>
-   <tr>
-     <th>Mon</th>
-     <th>Tue</th>
-     <th>Wed</th>
-     <th>Thu</th>
-     <th>Fri</th>
-     <th>Sat</th>
-     <th>Sun</th>
-   </tr>
-  </thead>
-  <tbody>
-    @for (week of weeks; track $index) {
-      <tr>
-        @for (day of week; track $index) {
-          <td
-            [class.success]="day.state === 'success'"
-            [class.failure]="day.state === 'failure'"
-            (click)="onCellClick(day)">{{ day.date | date: 'shortDate' }}</td>
-        }
-      </tr>
-    }
-  </tbody>
-</table>
+<div class="wrapper">
+  <table>
+    <thead>
+    <tr>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
+    </tr>
+    </thead>
+    <tbody>
+      @for (week of weeks; track $index) {
+        <tr>
+          @for (day of week; track $index) {
+            <td
+              [class.success]="day.state === 'success'"
+              [class.failure]="day.state === 'failure'"
+              (click)="onCellClick(day)">
+              <div class="cell">
+                <span>{{ day.date | date: 'd' }}</span>
+
+                @if (day.monthLabel) {
+                  <span class="month-label">{{ day.monthLabel }}</span>
+                }
+              </div>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

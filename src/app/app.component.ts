@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common'
 import { Component, OnInit } from '@angular/core';
 
-type Cell = { date: Date; state: CellState };
+type Cell = { date: Date; monthLabel?: string; state: CellState };
 type CellState = "success" | "failure" | "none";
 
 @Component({
@@ -39,6 +39,7 @@ export class AppComponent implements OnInit {
     const temporaryStart = new Date(2025, 4, 5, 12, 0, 0);
     const numberOfWeeks = 25;
 
+    let previousMonth = 4;
     this.weeks = new Array(numberOfWeeks)
       .fill(0)
       .map((_, weekIndex) => {
@@ -47,7 +48,16 @@ export class AppComponent implements OnInit {
           .map((_, dayIndex) => {
             const date = new Date();
             date.setDate(temporaryStart.getDate() + (weekIndex * 7) + dayIndex);
-            return { date, state: 'none' };
+            const month = date.getMonth();
+
+            const cell: Cell = { date, state: 'none' };
+
+            if (month !== previousMonth) {
+              previousMonth = month;
+              return { ...cell, monthLabel: date.toLocaleString('default', { month: 'long' }) } as Cell;
+            }
+
+            return cell;
           });
       });
   }

@@ -14,7 +14,10 @@
     @for (week of weeks; track $index) {
       <tr>
         @for (day of week; track $index) {
-          <td>{{ day | date: 'shortDate' }}</td>
+          <td
+            [class.success]="day.state === 'success'"
+            [class.failure]="day.state === 'failure'"
+            (click)="onCellClick(day)">{{ day.date | date: 'shortDate' }}</td>
         }
       </tr>
     }

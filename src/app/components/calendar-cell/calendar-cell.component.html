@@ -3,7 +3,7 @@
   [class.success]="day.state === 'success'"
   [class.failure]="day.state === 'failure'"
   [class.odd]="day.isOdd"
-  (pointerdown)="onClick(day)"
+  (click)="onClick(day)"
 >
   <div class="cell">
     <span>{{ day.date | date: 'd' }}</span>

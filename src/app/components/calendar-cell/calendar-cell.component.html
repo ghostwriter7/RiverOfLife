@@ -1,7 +1,6 @@
 @let day = cell();
 <td
-  [class.success]="day.state === 'success'"
-  [class.failure]="day.state === 'failure'"
+  [ngClass]="day.state"
   [class.odd]="day.isOdd"
   (click)="onClick(day)"
 >

@@ -26,13 +26,13 @@ import { CellDetailsFormGroup } from '../../types/cell-details-form-group.type'
   styleUrl: './details-dialog.component.css'
 })
 export class DetailsDialogComponent implements OnInit, DialogComponent<CellDetails> {
-  @ViewChild('details', {static: true}) private readonly dialogRef!: ElementRef<HTMLDialogElement>;
+  @ViewChild('details', { static: true }) private readonly dialogRef!: ElementRef<HTMLDialogElement>;
 
   protected readonly currentCell: Signal<Cell | null>;
   protected readonly form: CellDetailsFormGroup = new FormGroup({
-    climbing: new FormControl(false, {nonNullable: true}),
-    sugarFree: new FormControl(false, {nonNullable: true}),
-    mentalHealth: new FormControl(false, {nonNullable: true}),
+    climbing: new FormControl(false, { nonNullable: true }),
+    sugarFree: new FormControl(false, { nonNullable: true }),
+    mentalHealth: new FormControl(false, { nonNullable: true }),
   });
 
   constructor(
@@ -52,6 +52,7 @@ export class DetailsDialogComponent implements OnInit, DialogComponent<CellDetai
 
   public close(): void {
     this.dialogRef.nativeElement.close();
-    this.calendarService.updateCell(this.form.value as CellDetails);
+    const cellDetails = { ...this.form.value } as CellDetails;
+    this.calendarService.updateCell(cellDetails);
   }
 }

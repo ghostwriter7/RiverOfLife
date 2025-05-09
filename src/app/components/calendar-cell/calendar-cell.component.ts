@@ -1,4 +1,4 @@
-import { DatePipe } from '@angular/common'
+import { DatePipe, NgClass } from '@angular/common'
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { Cell } from '../../interfaces/cell.interface'
 import { CalendarService } from '../../services/calendar/calendar.service'
@@ -7,7 +7,8 @@ import { CalendarService } from '../../services/calendar/calendar.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-calendar-cell',
   imports: [
-    DatePipe
+    DatePipe,
+    NgClass
   ],
   templateUrl: './calendar-cell.component.html',
   styleUrl: './calendar-cell.component.css'

@@ -18,6 +18,7 @@
             <td
               [class.success]="day.state === 'success'"
               [class.failure]="day.state === 'failure'"
+              [class.odd]="day.isOdd"
               (click)="onCellClick(day)">
               <div class="cell">
                 <span>{{ day.date | date: 'd' }}</span>

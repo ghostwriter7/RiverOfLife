@@ -20,52 +20,27 @@ export class CalendarService {
     this.$currentCell = this.currentCell.asReadonly();
   }
 
-  private pointerPressMap = new Map<Cell, number>();
-
-  public handleCellClick(cell: Cell): void {
-    this.updateCellState(cell);
-    this.persistLogs();
-  }
-
-  public handleTouchEnd(event: TouchEvent, day: Cell): void {
-    const startTime = this.pointerPressMap.get(day);
-    if (startTime) {
-      this.pointerPressMap.delete(day);
-      const delta = Date.now() - startTime;
-      if (delta > 300) {
-        this.renderDetailsModal(event, day);
-      }
-    }
-  }
-
-  public handleTouchStart(day: Cell): void {
-    this.pointerPressMap.set(day, Date.now());
-  }
-
-  public renderDetailsModal(event: Event, day: Cell): void {
-    event.preventDefault();
-    event.stopPropagation();
+  public renderDetailsModal(day: Cell): void {
     this.currentCell.set(day);
     this.dialogService.open<DialogComponent<CellDetails>>(DetailsDialogComponent, day.details);
   }
 
   public updateCell(cellDetails: CellDetails): void {
     const currentCell = this.currentCell()!;
-    currentCell.details = cellDetails;
+    const allPassed = Object.values(cellDetails).every(Boolean);
+    const { date } = currentCell;
+    const isPassedDate = new Date(date.getFullYear(), date.getMonth(), date.getDate())[Symbol.toPrimitive]('number')
+      < new Date().setHours(0, 0, 0, 0);
+
+    this.tableData.update((tableData) =>
+      tableData.with(currentCell.weekIndex, tableData[currentCell.weekIndex].with(currentCell.dayIndex, {
+        ...currentCell,
+        details: cellDetails,
+        state: allPassed ? 'success' : isPassedDate ? 'failure' : 'none'
+      })));
+
     this.currentCell.set(null);
     this.persistLogs();
-  }
-
-  private updateCellState(cell: Cell): void {
-    if (cell.state === 'none') {
-      Object.keys(cell.details).forEach((key) => cell.details[ key as keyof Cell['details'] ] = true);
-      cell.state = 'success';
-    } else if (cell.state === 'success') {
-      Object.keys(cell.details).forEach((key) => cell.details[ key as keyof Cell['details'] ] = false);
-      cell.state = 'failure';
-    } else {
-      cell.state = 'none';
-    }
   }
 
   private persistLogs(): void {
@@ -90,13 +65,15 @@ export class CalendarService {
 
             const cell: Cell = {
               date,
+              dayIndex,
               details: {
                 climbing: false,
                 sugarFree: false,
                 mentalHealth: false,
               },
               state: 'none',
-              isOdd: month % 2 !== 0
+              isOdd: month % 2 !== 0,
+              weekIndex
             };
 
             if (month !== previousMonth) {
@@ -113,7 +90,9 @@ export class CalendarService {
     const storedWeeks = localStorage.getItem('weeks');
     if (storedWeeks) {
       try {
-        return JSON.parse(storedWeeks) as TableData;
+        return (JSON.parse(storedWeeks) as TableData)
+          .map((weeks) => weeks
+            .map((day) => ({ ...day, date: new Date(day.date) })));
       } catch (error) {
         console.error('Failed to parse stored weeks');
         console.error(error);

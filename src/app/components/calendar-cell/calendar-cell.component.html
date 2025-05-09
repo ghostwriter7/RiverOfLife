@@ -3,10 +3,8 @@
   [class.success]="day.state === 'success'"
   [class.failure]="day.state === 'failure'"
   [class.odd]="day.isOdd"
-  (touchstart)="onTouchStart(day)"
-  (touchend)="onTouchEnd($event, day)"
-  (contextmenu)="onRightClick($event, day)"
-  (click)="onCellClick(day)">
+  (pointerdown)="onClick(day)"
+>
   <div class="cell">
     <span>{{ day.date | date: 'd' }}</span>
 

@@ -35,6 +35,10 @@ body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   width: 100vw;
+
+  &.no-scroll {
+    overflow: hidden;
+  }
 }
 
 dialog {

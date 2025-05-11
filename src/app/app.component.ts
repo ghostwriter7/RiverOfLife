@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CalendarTableComponent } from './components/calendar-table/calendar-table.component'
 import { DetailsDialogComponent } from './components/details-dialog/details-dialog.component'
+import { MenuComponent } from './components/menu/menu.component'
 import { TopBarComponent } from './components/top-bar/top-bar.component'
 import { Cell } from './interfaces/cell.interface'
 import { CalendarService } from './services/calendar/calendar.service'
@@ -17,6 +18,7 @@ import { CalendarService } from './services/calendar/calendar.service'
     CalendarTableComponent,
     DetailsDialogComponent,
     TopBarComponent,
+    MenuComponent,
   ],
   styleUrl: './app.component.css'
 })

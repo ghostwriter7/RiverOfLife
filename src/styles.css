@@ -21,6 +21,13 @@
   --clr-danger: #7f1d1d;
 
   --radius: 6px;
+
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+
 }
 
 body {

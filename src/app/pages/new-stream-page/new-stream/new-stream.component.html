@@ -1,1 +1,26 @@
 <app-page-header title="New Stream" />
+
+<form class="new-stream-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+  <div class="form-field">
+    <label for="title">Title</label>
+    <input id="title" type="text" formControlName="title" placeholder="Enter title">
+  </div>
+
+  <div class="form-field">
+    <label for="description">Description</label>
+    <textarea id="description" formControlName="description" placeholder="Enter description" rows="4"></textarea>
+  </div>
+
+  <div class="form-field">
+    <label for="category">Category</label>
+    <select id="category" formControlName="category">
+      <option [value]="null" disabled>Select a category</option>
+      <option value="Sport">Sport</option>
+      <option value="Mental">Mental</option>
+      <option value="Health">Health</option>
+      <option value="Money">Money</option>
+    </select>
+  </div>
+
+  <button class="button accent" type="submit" [disabled]="!formGroup.valid">Create</button>
+</form>

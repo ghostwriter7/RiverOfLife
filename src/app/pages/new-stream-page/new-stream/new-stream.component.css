@@ -1,0 +1,6 @@
+.new-stream-form {
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  margin: var(--space-md);
+  padding: var(--space-md);
+}

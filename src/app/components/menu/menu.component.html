@@ -1,10 +1,14 @@
 <nav class="menu" [class.active]="isActive()">
-  <header>
-    <button class="button" (click)="close()">
-      <span class="material-icons">close</span>
-    </button>
-  </header>
+  <button class="button menu-toggle" (click)="close()">
+    <span class="material-icons">close</span>
+  </button>
   <section>
-
+    <ul class="menu-list">
+      @for (link of menuLinks; track $index) {
+        <li class="menu-list-item">
+          <a class="menu-link" [routerLink]="link.route" [routerLinkActive]="['active']">{{ link.label }}</a>
+        </li>
+      }
+    </ul>
   </section>
 </nav>

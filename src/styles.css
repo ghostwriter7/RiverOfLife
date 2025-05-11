@@ -1,26 +1,40 @@
+@import 'material-icons/iconfont/material-icons.css';
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import './styles/button.css';
+
 :root {
-  --bg-1: #1a1a1a;
-  --bg-2: #222;
-  --fg-main: #f2f2f2;
-  --fg-muted: #9a9a9a;
-  --accent: #3d7fff;
-  --border: #2b2b2b;
-  --success: #4ade80;
-  --failure: #f87171;
+  --bg-primary: #1a1a1a;
+  --clr-primary: #f2f2f2;
+
+  --bg-secondary: #222;
+  --clr-secondary: #9a9a9a;
+
+  --bg-accent: #3d7fff;
+  --clr-accent: #ffffff;
+
+  --clr-border: #2b2b2b;
+
+  --bg-success: #4ade80;
+  --clr-success: #064e21;
+
+  --bg-danger: #f87171;
+  --clr-danger: #7f1d1d;
+
+  --radius: 6px;
 }
 
 body {
-  background: var(--bg-1);
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg-primary);
+  font-family: 'Roboto', sans-serif;
   margin: 0;
   width: 100vw;
 }
 
 dialog {
   width: min(90vw, 250px);
-  background: var(--bg-2);
-  border-color: var(--border);
-  color: var(--fg-main);
+  background: var(--bg-secondary);
+  border-color: var(--clr-border);
+  color: var(--clr-primary);
 
   &::backdrop {
     backdrop-filter: blur(5px);

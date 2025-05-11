@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms'
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
 
 @Component({
@@ -13,9 +13,9 @@ import { PageHeaderComponent } from '../../../components/page-header/page-header
 })
 export class NewStreamComponent {
   protected readonly formGroup = new FormGroup({
-    title: new FormControl<string | null>(null),
+    title: new FormControl<string | null>(null, Validators.required),
     description: new FormControl<string | null>(null),
-    category: new FormControl<string | null>(null),
+    category: new FormControl<string | null>(null, Validators.required),
   });
 
   protected onSubmit(): void {

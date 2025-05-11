@@ -51,6 +51,10 @@
     background: var(--bg-danger);
     color: var(--clr-danger);
   }
+
+  &.wide {
+    width: 100%;
+  }
 }
 
 

@@ -1,5 +1,7 @@
 import { DOCUMENT } from '@angular/common'
 import { Inject, Injectable, signal, Signal } from '@angular/core'
+import { Router } from '@angular/router'
+import { filter, tap } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class MenuService {
@@ -7,8 +9,18 @@ export class MenuService {
 
   private readonly isActive = signal(false);
 
-  constructor(@Inject(DOCUMENT) private readonly document: Document ) {
+  constructor(
+    private readonly router: Router,
+    @Inject(DOCUMENT) private readonly document: Document) {
     this.$isActive = this.isActive.asReadonly();
+
+
+    this.router.events
+      .pipe(
+        filter(() => this.isActive()),
+        tap(() => this.hideMenu())
+      )
+      .subscribe();
   }
 
   public showMenu(): void {

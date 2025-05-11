@@ -18,7 +18,8 @@ export class MenuComponent {
   ];
   protected readonly isActive: Signal<boolean>;
 
-  constructor(private readonly menuService: MenuService) {
+  constructor(
+    private readonly menuService: MenuService) {
     this.isActive = menuService.$isActive;
   }
 

@@ -5,8 +5,8 @@
   <section>
     <ul class="menu-list">
       @for (link of menuLinks; track $index) {
-        <li class="menu-list-item">
-          <a class="menu-link" [routerLink]="link.route" [routerLinkActive]="['active']">{{ link.label }}</a>
+        <li class="menu-list-item" [routerLink]="link.route" [routerLinkActive]="['active']">
+          <a class="menu-link">{{ link.label }}</a>
         </li>
       }
     </ul>

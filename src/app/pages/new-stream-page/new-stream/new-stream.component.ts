@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
+import { Stream } from '../../../model/stream.model'
+import { StreamService } from '../../../services/stream/stream.service'
 
 @Component({
   selector: 'app-new-stream',
@@ -18,7 +20,25 @@ export class NewStreamComponent {
     category: new FormControl<string | null>(null, Validators.required),
   });
 
-  protected onSubmit(): void {
+  constructor(private readonly streamService: StreamService) {
+  }
 
+  protected async onSubmit(): Promise<void> {
+    const { title, description, category } = this.formGroup.value;
+
+    if (!title || !category || description === undefined) {
+      return;
+    }
+
+    // TODO switch on the spinner
+
+    const stream = new Stream(title, category, description);
+    try {
+      await this.streamService.create(stream);
+    } catch (error) {
+      // TODO display error
+    } finally {
+      // TODO switch off the spinner
+    }
   }
 }

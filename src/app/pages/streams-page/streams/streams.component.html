@@ -1,1 +1,5 @@
-<app-page-header title="Streams" />
+<app-page-header title="Streams"/>
+
+@for (stream of streams(); track stream.title) {
+  {{ stream.title }}
+}

@@ -1,0 +1,4 @@
+.menu-list {
+  background: var(--bg-secondary);
+  padding: var(--space-md);
+}

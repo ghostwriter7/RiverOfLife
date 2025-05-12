@@ -1,0 +1,24 @@
+a {
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  color: var(--clr-primary);
+  cursor: pointer;
+  padding: var(--space-lg);
+  text-decoration: none;
+
+  &:hover {
+    background: var(--bg-accent);
+    color: var(--clr-accent);
+    text-decoration: none;
+  }
+
+  &.active {
+    background: var(--bg-accent);
+    color: var(--clr-accent);
+  }
+
+  &.wide {
+    display: block;
+    width: 100%;
+  }
+}

@@ -27,19 +27,3 @@
   margin-left: auto;
 }
 
-.menu-list {
-  padding-top: var(--space-md);
-}
-
-.menu-list-item {
-  background: var(--bg-primary);
-  border-radius: var(--radius);
-  color: var(--clr-primary);
-  margin-bottom: var(--space-md);
-  padding: var(--space-lg);
-
-  &.active {
-    background: var(--bg-accent);
-    color: var(--clr-accent);
-  }
-}

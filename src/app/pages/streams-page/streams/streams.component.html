@@ -1,5 +1,9 @@
 <app-page-header title="Streams"/>
 
-@for (stream of streams(); track stream.title) {
-  {{ stream.title }}
-}
+<ul class="menu-list">
+  @for (stream of streams(); track stream.title) {
+    <li class="menu-list-item">
+      <a class="menu-link wide" [routerLink]="stream.title" [routerLinkActive]="['active']">{{ stream.title }}</a>
+    </li>
+  }
+</ul>

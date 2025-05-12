@@ -1,0 +1,16 @@
+header {
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  color: var(--clr-secondary);
+  display: flex;
+  justify-content: space-between;
+  margin: var(--space-md);
+  padding: var(--space-sm);
+  text-align: center;
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+}

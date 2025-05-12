@@ -1,11 +1,12 @@
 import { Component, input } from '@angular/core';
+import { CalendarComponent } from '../../../components/calendar/calendar.component'
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
 
 @Component({
   selector: 'app-stream',
-  standalone: true,
   imports: [
-    PageHeaderComponent
+    PageHeaderComponent,
+    CalendarComponent
   ],
   templateUrl: './stream.component.html',
   styleUrl: './stream.component.css'

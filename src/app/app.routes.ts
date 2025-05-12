@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/streams-page/streams/streams.component').then(m => m.StreamsComponent)
   },
   {
+    path: 'streams/:streamId',
+    loadComponent: () => import('./pages/stream-page/stream/stream.component').then(m => m.StreamComponent),
+  },
+  {
     path: '**',
     redirectTo: 'streams'
   }

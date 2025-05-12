@@ -11,6 +11,24 @@ header {
 }
 
 .calendar {
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  color: var(--clr-secondary);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  margin: var(--space-md);
+  padding: var(--space-md);
+  place-items: center;
+}
+
+.week-label {
+  padding-bottom: var(--space-sm);
+}
+
+.day {
+  border: 1px solid var(--clr-border);
+  grid-column-start: var(--week-index);
+  padding: var(--space-sm);
+  width: 100%;
+  text-align: center;
 }

@@ -9,5 +9,10 @@
 </header>
 
 <div class="calendar">
-
+  @for (weekLabel of weekLabels; track weekLabel) {
+    <span class="week-label">{{ weekLabel }}</span>
+  }
+  @for (day of dates(); track day.date) {
+    <span class="day" [style.--week-index]="day.weekIndex">{{ day.date | date: 'd' }}</span>
+  }
 </div>

@@ -1,8 +1,10 @@
+import { DatePipe } from '@angular/common'
 import { Component, computed, OnInit, signal } from '@angular/core';
 
 @Component({
   selector: 'app-calendar',
-  imports: [],
+  imports: [
+    DatePipe],
   templateUrl: './calendar.component.html',
   styleUrl: './calendar.component.css'
 })
@@ -13,6 +15,22 @@ export class CalendarComponent implements OnInit {
   });
   protected readonly currentMonth = signal<number>(0);
   protected readonly currentYear = signal<number>(0);
+  protected readonly dates = computed(() => {
+    const month = this.currentMonth();
+    const year = this.currentYear();
+
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+
+    return new Array(daysInMonth)
+      .fill(0)
+      .map((_, index) => {
+        const date = new Date(year, month, index + 1);
+        return { date, weekIndex: date.getDay() + 1 };
+      });
+  });
+  protected readonly weekLabels = new Array(7).fill(0).map((_, index) =>
+    Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(new Date(2020, 0, index + 1))
+  );
 
   public ngOnInit(): void {
     const now = new Date();

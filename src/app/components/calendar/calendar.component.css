@@ -27,8 +27,18 @@ header {
 
 .day {
   border: 1px solid var(--clr-border);
-  grid-column-start: var(--week-index);
+  cursor: pointer;
   padding: var(--space-sm);
   width: 100%;
   text-align: center;
+
+  &.failure {
+    background-color: var(--bg-danger);
+    color: var(--clr-danger);
+  }
+
+  &.success {
+    background-color: var(--bg-success);
+    color: var(--clr-success);
+  }
 }

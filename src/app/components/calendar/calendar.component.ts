@@ -1,63 +1,69 @@
-import { DatePipe } from '@angular/common'
-import { Component, computed, OnInit, signal } from '@angular/core';
+import { NgClass } from '@angular/common'
+import { ChangeDetectionStrategy, Component, computed, effect, input, Signal, } from '@angular/core';
+import { StreamService } from '../../services/stream/stream.service';
+
+interface DayData {
+  date: number;
+  weekIndex: number;
+  state: number;
+  className: string;
+}
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-calendar',
-  imports: [
-    DatePipe],
   templateUrl: './calendar.component.html',
+  imports: [NgClass],
   styleUrl: './calendar.component.css'
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent {
+  public readonly streamId = input.required<string>();
+
   protected readonly header = computed(() => {
     const date = new Date(this.currentYear(), this.currentMonth(), 1);
     return Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(date);
   });
-  protected readonly currentMonth = signal<number>(0);
-  protected readonly currentYear = signal<number>(0);
-  protected readonly dates = computed(() => {
+  protected readonly dates = computed<DayData[]>(() => {
     const month = this.currentMonth();
     const year = this.currentYear();
 
-    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const firstDayWeekIndex = new Date(year, month, 1).getDay();
+    const adjustedFirstDayIndex = firstDayWeekIndex === 0 ? 7 : firstDayWeekIndex;
 
-    return new Array(daysInMonth)
-      .fill(0)
-      .map((_, index) => {
-        const date = new Date(year, month, index + 1);
-        return { date, weekIndex: date.getDay() + 1 };
+    return this.streamService.$monthData()
+      .map((state, index) => {
+        return {
+          date: index + 1,
+          weekIndex: ((adjustedFirstDayIndex + index - 1) % 7) + 1,
+          state,
+          className: state === 1 ? 'none' : state === 2 ? 'success' : 'failure'
+        };
       });
   });
   protected readonly weekLabels = new Array(7).fill(0).map((_, index) =>
-    Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(new Date(2020, 0, index + 1))
+    Intl.DateTimeFormat('en-US', { weekday: 'short' }).format(new Date(2025, 4, index + 5))
   );
 
-  public ngOnInit(): void {
-    const now = new Date();
-    this.currentMonth.set(now.getMonth());
-    this.currentYear.set(now.getFullYear());
+  private readonly currentYear: Signal<number>;
+  private readonly currentMonth: Signal<number>;
 
+  constructor(private readonly streamService: StreamService) {
+    this.currentMonth = streamService.$currentMonth;
+    this.currentYear = streamService.$currentYear;
+
+    effect(() => this.streamService.setStreamId(this.streamId()));
   }
 
   protected showNextMonth(): void {
-    const currentMonth = this.currentYear();
-
-    if (currentMonth === 11) {
-      this.currentMonth.set(0);
-      this.currentYear.update((year) => year + 1);
-    } else {
-      this.currentMonth.update((month) => month + 1);
-    }
+    this.streamService.showNextMonth();
   }
 
   protected showPreviousMonth(): void {
-    const currentMonth = this.currentMonth();
+    this.streamService.showPreviousMonth();
+  }
 
-    if (currentMonth === 0) {
-      this.currentMonth.set(11);
-      this.currentYear.update((year) => year - 1);
-    } else {
-      this.currentMonth.update((month) => month - 1);
-    }
+  protected onDayClick(day: DayData): void {
+    const newState = ((day.state || 0) + 1) % 3;
+    this.streamService.updateDay(day.date, newState);
   }
 }

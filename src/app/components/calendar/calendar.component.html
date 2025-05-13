@@ -13,6 +13,12 @@
     <span class="week-label">{{ weekLabel }}</span>
   }
   @for (day of dates(); track day.date) {
-    <span class="day" [style.--week-index]="day.weekIndex">{{ day.date | date: 'd' }}</span>
+    <span
+      class="day"
+      [ngClass]="day.className"
+      [style.grid-column-start]="day.weekIndex"
+      (click)="onDayClick(day)">
+      {{ day.date }}
+    </span>
   }
 </div>

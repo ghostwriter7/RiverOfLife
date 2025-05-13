@@ -3,6 +3,7 @@ import { Stream } from '../../model/stream.model'
 
 @Injectable({ providedIn: 'root' })
 export class StreamRepository {
+  private db: IDBDatabase | null = null;
 
   public async getStreamDataByMonthAndYear(streamId: string, month: number, year: number): Promise<number[]> {
     const db = await this.getDatabase();
@@ -63,10 +64,17 @@ export class StreamRepository {
   }
 
   private getDatabase(): Promise<IDBDatabase> {
+    if (this.db) {
+      return Promise.resolve(this.db);
+    }
+
     return new Promise((resolve, reject) => {
       const request = indexedDB.open('river-of-life', 1);
 
-      request.onsuccess = () => resolve(request.result);
+      request.onsuccess = () => {
+        this.db = request.result;
+        resolve(this.db);
+      };
 
       request.onerror = () => reject(request.error);
 
@@ -78,10 +86,8 @@ export class StreamRepository {
         }
 
         if (!db.objectStoreNames.contains('stream-data')) {
-          db.createObjectStore('stream-data', { keyPath: ['streamId', 'month', 'year']});
+          db.createObjectStore('stream-data', { keyPath: ['streamId', 'month', 'year'] });
         }
-
-        resolve(db);
       }
     });
   }

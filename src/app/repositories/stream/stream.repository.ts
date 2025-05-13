@@ -53,7 +53,7 @@ export class StreamRepository {
     const transaction = db.transaction('stream-data', 'readwrite');
 
     const streamDataStore = transaction.objectStore('stream-data');
-    const request = streamDataStore.put({ streamId: 'test', month, year, data });
+    const request = streamDataStore.put({ streamId, month, year, data });
 
     return new Promise((resolve, reject) => {
       request.onsuccess = () => resolve();

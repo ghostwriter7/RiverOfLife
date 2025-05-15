@@ -5,6 +5,7 @@ import { StreamService } from '../../services/stream/stream.service';
 interface DayData {
   date: number;
   weekIndex: number;
+  isToday?: boolean;
   state: number;
   className: string;
 }
@@ -30,10 +31,17 @@ export class CalendarComponent {
     const firstDayWeekIndex = new Date(year, month, 1).getDay();
     const adjustedFirstDayIndex = firstDayWeekIndex === 0 ? 7 : firstDayWeekIndex;
 
+    const now = new Date();
+    const thisMonth = now.getMonth();
+    const thisYear = now.getFullYear();
+    const today = now.getDate();
+
     return this.streamService.$monthData()
       .map((state, index) => {
+        const date = index + 1;
         return {
-          date: index + 1,
+          date,
+          isToday: thisMonth === month && thisYear === year && date === today,
           weekIndex: ((adjustedFirstDayIndex + index - 1) % 7) + 1,
           state,
           className: state === 1 ? 'none' : state === 2 ? 'success' : 'failure'

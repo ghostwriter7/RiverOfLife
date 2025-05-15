@@ -32,6 +32,10 @@ header {
   width: 100%;
   text-align: center;
 
+  &.today {
+    border-color: var(--bg-accent);
+  }
+
   &.failure {
     background-color: var(--bg-danger);
     color: var(--clr-danger);

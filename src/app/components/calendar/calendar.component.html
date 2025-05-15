@@ -15,6 +15,7 @@
   @for (day of dates(); track day.date) {
     <span
       class="day"
+      [class.today]="day.isToday"
       [ngClass]="day.className"
       [style.grid-column-start]="day.weekIndex"
       (click)="onDayClick(day)">

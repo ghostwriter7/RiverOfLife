@@ -58,3 +58,11 @@ dialog {
     backdrop-filter: blur(5px);
   }
 }
+
+.error-message {
+  background: var(--bg-danger);
+  border-radius: var(--radius);
+  color: var(--clr-danger);
+  font-weight: 600;
+  padding: var(--space-sm);
+}

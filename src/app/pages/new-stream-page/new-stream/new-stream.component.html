@@ -22,5 +22,10 @@
     </select>
   </div>
 
+  @if (error(); as error) {
+    <p class="error-message">{{ error }}</p>
+  }
+
   <button class="button accent wide" type="submit" [disabled]="!formGroup.valid">Create</button>
 </form>
+

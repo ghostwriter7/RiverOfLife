@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
 import { Stream } from '../../../model/stream.model'
 import { StreamService } from '../../../services/stream/stream.service'
@@ -19,8 +20,11 @@ export class NewStreamComponent {
     description: new FormControl<string | null>(null),
     category: new FormControl<string | null>(null, Validators.required),
   });
+  protected readonly error = signal<string | null>(null);
+  protected readonly submitted = signal(false);
 
-  constructor(private readonly streamService: StreamService) {
+  constructor(private readonly streamService: StreamService,
+              private readonly router: Router) {
   }
 
   protected async onSubmit(): Promise<void> {
@@ -30,15 +34,16 @@ export class NewStreamComponent {
       return;
     }
 
-    // TODO switch on the spinner
+    this.error.set(null);
+    this.submitted.set(true);
 
     const stream = new Stream(title, category, description);
     try {
       await this.streamService.create(stream);
+      this.router.navigate(['streams', stream.title]);
     } catch (error) {
-      // TODO display error
-    } finally {
-      // TODO switch off the spinner
+      this.error.set(error instanceof Error ? error.message : 'Unknown error');
+      this.submitted.set(false);
     }
   }
 }

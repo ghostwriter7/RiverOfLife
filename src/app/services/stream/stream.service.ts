@@ -4,7 +4,7 @@ import { StreamRepository } from '../../repositories/stream/stream.repository'
 
 @Injectable({ providedIn: 'root' })
 export class StreamService {
-  public readonly $streams: Signal<Stream[]>;
+  public readonly $streams: Signal<Stream[] | null>;
 
   public readonly $currentMonth: Signal<number>;
   public readonly $currentYear: Signal<number>;
@@ -14,7 +14,7 @@ export class StreamService {
   private readonly currentYear = signal<number>(0);
   private readonly monthData = signal<number[]>([]);
   private readonly streamId = signal<string | null>(null);
-  private readonly streams = signal<Stream[]>([]);
+  private readonly streams = signal<Stream[] | null>(null);
 
   constructor(private readonly streamRepository: StreamRepository) {
     this.$monthData = this.monthData.asReadonly();
@@ -43,12 +43,12 @@ export class StreamService {
     const streamId = stream.title;
 
     await Promise.all([
-      this.streamRepository.deleteStreamByStreamId(streamId),
-      this.streamRepository.deleteStreamDataByStreamId(streamId)
+        this.streamRepository.deleteStreamByStreamId(streamId),
+        this.streamRepository.deleteStreamDataByStreamId(streamId)
       ]
     );
 
-    this.streams.update((streams) => streams.filter(({ title }) => title !== streamId));
+    this.streams.update((streams) => streams!.filter(({ title }) => title !== streamId));
   }
 
   public async create(stream: Stream): Promise<Stream> {

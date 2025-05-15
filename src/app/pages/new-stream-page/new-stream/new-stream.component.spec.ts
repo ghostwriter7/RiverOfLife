@@ -1,23 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { NewStreamComponent } from './new-stream.component';
+import { NewStreamComponent } from '@app/pages/new-stream-page/new-stream/new-stream.component'
+import { StreamService } from '@app/services/stream/stream.service'
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest'
 
 describe('NewStreamComponent', () => {
-  let component: NewStreamComponent;
-  let fixture: ComponentFixture<NewStreamComponent>;
+  const streamServiceMock = { create: () => jest.fn() };
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [NewStreamComponent]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(NewStreamComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+  let spectator: Spectator<NewStreamComponent>;
+  const createComponent = createComponentFactory({
+    component: NewStreamComponent,
+    providers: [
+      { provide: StreamService, useValue: streamServiceMock}
+    ]
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+  beforeEach(() => spectator = createComponent())
+
+  it('should create', () => expect(spectator.component).toBeDefined());
+})

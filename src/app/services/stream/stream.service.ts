@@ -58,6 +58,8 @@ export class StreamService {
       throw new Error('Stream with this title already exists.');
     }
 
+    this.streams.update((streams) => [...(streams || []), stream]);
+
     return await this.streamRepository.create(stream);
   }
 

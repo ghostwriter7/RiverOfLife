@@ -1,8 +1,9 @@
-import { Component, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router'
-import { MenuService } from '../../services/menu/menu.service'
+import { MenuService } from '@app/services/menu/menu.service'
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-menu',
   imports: [
     RouterLink,

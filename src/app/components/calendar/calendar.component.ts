@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common'
 import { ChangeDetectionStrategy, Component, computed, effect, input, Signal, } from '@angular/core';
-import { StreamService } from '../../services/stream/stream.service';
+import { StreamService } from '@app/services/stream/stream.service';
 
 interface DayData {
   date: number;

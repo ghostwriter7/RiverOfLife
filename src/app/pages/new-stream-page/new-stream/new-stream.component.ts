@@ -1,11 +1,12 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
-import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
-import { Stream } from '../../../model/stream.model'
-import { StreamService } from '../../../services/stream/stream.service'
+import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
+import { Stream } from '@app/model/stream.model'
+import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-new-stream',
   imports: [
     PageHeaderComponent,

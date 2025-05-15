@@ -1,11 +1,12 @@
-import { Component, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Signal } from '@angular/core';
 import { RouterLink } from '@angular/router'
-import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
-import { SpinnerComponent } from '../../../components/spinner/spinner.component'
-import { Stream } from '../../../model/stream.model'
-import { StreamService } from '../../../services/stream/stream.service'
+import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
+import { SpinnerComponent } from '@app/components/spinner/spinner.component'
+import { Stream } from '@app/model/stream.model'
+import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-streams',
   imports: [
     PageHeaderComponent,

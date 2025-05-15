@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Stream } from '../../model/stream.model'
+import { Stream } from '@app/model/stream.model'
 
 @Injectable({ providedIn: 'root' })
 export class StreamRepository {

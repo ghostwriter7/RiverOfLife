@@ -1,8 +1,9 @@
-import { Component, input } from '@angular/core';
-import { CalendarComponent, } from '../../../components/calendar/calendar.component'
-import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { CalendarComponent, } from '@app/components/calendar/calendar.component'
+import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-stream',
   imports: [
     PageHeaderComponent,

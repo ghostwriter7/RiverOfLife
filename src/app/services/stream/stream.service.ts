@@ -1,6 +1,6 @@
 import { effect, Injectable, signal, Signal } from '@angular/core'
-import { Stream } from '../../model/stream.model'
-import { StreamRepository } from '../../repositories/stream/stream.repository'
+import { Stream } from '@app/model/stream.model'
+import { StreamRepository } from '@app/repositories/stream/stream.repository'
 
 @Injectable({ providedIn: 'root' })
 export class StreamService {
@@ -60,7 +60,7 @@ export class StreamService {
 
     this.streams.update((streams) => [...(streams || []), stream]);
 
-    return await this.streamRepository.create(stream);
+    return this.streamRepository.create(stream);
   }
 
   public setStreamId(streamId: string): void {

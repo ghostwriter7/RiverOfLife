@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { MenuService } from '../../services/menu/menu.service'
+import { MenuService } from '@app/services/menu/menu.service'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -32,6 +32,10 @@
     pointer-events: none;
   }
 
+  &.wide {
+    width: 100%;
+  }
+
   &.accent {
     background: var(--bg-accent);
     color: var(--clr-accent);

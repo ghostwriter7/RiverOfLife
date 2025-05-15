@@ -4,6 +4,8 @@ import { StreamRepository } from '../../repositories/stream/stream.repository'
 
 @Injectable({ providedIn: 'root' })
 export class StreamService {
+  public readonly $streams: Signal<Stream[]>;
+
   public readonly $currentMonth: Signal<number>;
   public readonly $currentYear: Signal<number>;
   public readonly $monthData: Signal<number[]>;
@@ -12,11 +14,17 @@ export class StreamService {
   private readonly currentYear = signal<number>(0);
   private readonly monthData = signal<number[]>([]);
   private readonly streamId = signal<string | null>(null);
+  private readonly streams = signal<Stream[]>([]);
 
   constructor(private readonly streamRepository: StreamRepository) {
     this.$monthData = this.monthData.asReadonly();
     this.$currentYear = this.currentYear.asReadonly();
     this.$currentMonth = this.currentMonth.asReadonly();
+    this.$streams = this.streams.asReadonly();
+
+    this.streamRepository.getAll()
+      .then((streams) => this.streams.set(streams))
+      .catch((error) => console.error('Failed to load streams', error));
 
     this.resetCalendar();
 
@@ -29,6 +37,18 @@ export class StreamService {
 
       this.updateMonthData(streamId, month, year);
     });
+  }
+
+  public async deleteStream(stream: Stream): Promise<void> {
+    const streamId = stream.title;
+
+    await Promise.all([
+      this.streamRepository.deleteStreamByStreamId(streamId),
+      this.streamRepository.deleteStreamDataByStreamId(streamId)
+      ]
+    );
+
+    this.streams.update((streams) => streams.filter(({ title }) => title !== streamId));
   }
 
   public async create(stream: Stream): Promise<Stream> {

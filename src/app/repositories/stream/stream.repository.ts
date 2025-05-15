@@ -5,6 +5,28 @@ import { Stream } from '../../model/stream.model'
 export class StreamRepository {
   private db: IDBDatabase | null = null;
 
+  public async deleteStreamByStreamId(streamId: string): Promise<void> {
+    const db = await this.getDatabase();
+    const transaction = db.transaction('streams', 'readwrite');
+    const streamStore = transaction.objectStore('streams');
+    const request = streamStore.delete(streamId);
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
+  public async deleteStreamDataByStreamId(streamId: string): Promise<void> {
+    const db = await this.getDatabase();
+    const transaction = db.transaction('stream-data', 'readwrite');
+    const streamDataStore = transaction.objectStore('stream-data');
+    const request = streamDataStore.delete(IDBKeyRange.bound([streamId, 0, 0], [streamId, 11, 9999]));
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   public async getStreamDataByMonthAndYear(streamId: string, month: number, year: number): Promise<number[]> {
     const db = await this.getDatabase();
     const transaction = db.transaction('stream-data', 'readonly');

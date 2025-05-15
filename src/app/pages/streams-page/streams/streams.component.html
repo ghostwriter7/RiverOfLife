@@ -2,13 +2,14 @@
 
 <ul class="menu-list">
   @for (stream of streams(); track stream.title) {
-    <li class="menu-list-item">
-      <a
-        class="menu-link wide"
-        [routerLink]="[stream.title]"
-        [routerLinkActive]="['active']">
-        {{ stream.title }}
-      </a>
+    <li class="menu-list-item" [routerLink]="[stream.title]">
+      <span class="menu-link">{{ stream.title }}</span>
+      <button class="button danger" (click)="delete($event, stream)">
+        <span class="material-icons">delete</span>
+      </button>
     </li>
+  } @empty {
+    <p class="no-streams">Time to flow with the River of Life. Create a Stream.</p>
+    <button class="button success wide" [routerLink]="['/new']">Create a Stream.</button>
   }
 </ul>

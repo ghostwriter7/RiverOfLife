@@ -1,5 +1,5 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router'
+import { Component, Signal } from '@angular/core';
+import { RouterLink } from '@angular/router'
 import { PageHeaderComponent } from '../../../components/page-header/page-header.component'
 import { Stream } from '../../../model/stream.model'
 import { StreamService } from '../../../services/stream/stream.service'
@@ -9,18 +9,19 @@ import { StreamService } from '../../../services/stream/stream.service'
   imports: [
     PageHeaderComponent,
     RouterLink,
-    RouterLinkActive
   ],
   templateUrl: './streams.component.html',
   styleUrl: './streams.component.css'
 })
-export class StreamsComponent implements OnInit {
-  protected readonly streams = signal<Stream[]>([]);
+export class StreamsComponent {
+  protected readonly streams: Signal<Stream[]>;
 
   constructor(private readonly streamService: StreamService) {
+    this.streams = this.streamService.$streams;
   }
 
-  public async ngOnInit(): Promise<void> {
-    this.streams.set(await this.streamService.getAll());
+  protected delete(event: Event, stream: Stream): void {
+    event.stopPropagation();
+    this.streamService.deleteStream(stream);
   }
 }

@@ -1,4 +1,25 @@
+.no-streams {
+  color: var(--clr-secondary);
+  text-align: center;
+}
+
 .menu-list {
   background: var(--bg-secondary);
   padding: var(--space-md);
+}
+
+.menu-list-item {
+  align-items: center;
+  background: var(--bg-primary);
+  border-radius: var(--radius);
+  color: var(--clr-primary);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  padding: var(--space-sm) var(--space-md);
+
+  &.active, &:hover {
+    background: var(--bg-accent);
+    color: var(--clr-accent);
+  }
 }

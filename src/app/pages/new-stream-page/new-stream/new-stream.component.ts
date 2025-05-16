@@ -2,9 +2,11 @@ import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
+import { Categories } from '@app/consts/categories.const'
 import { Stream } from '@app/model/stream.model'
 import { TestIds } from '@app/pages/new-stream-page/new-stream/test-ids.const'
 import { StreamService } from '@app/services/stream/stream.service'
+import { Category } from '@app/types/category.type'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -20,11 +22,12 @@ export class NewStreamComponent {
   protected readonly formGroup = new FormGroup({
     title: new FormControl<string | null>(null, Validators.required),
     description: new FormControl<string | null>(null),
-    category: new FormControl<string | null>(null, Validators.required),
+    category: new FormControl<Category | null>(null, Validators.required),
   });
   protected readonly error = signal<string | null>(null);
   protected readonly submitted = signal(false);
   protected readonly testIds = TestIds;
+  protected readonly categories = Categories;
 
   constructor(private readonly streamService: StreamService,
               private readonly router: Router) {

@@ -25,10 +25,9 @@
       [attr.data-testid]="testIds.CategorySelect"
     >
       <option [value]="null" disabled>Select a category</option>
-      <option value="Sport">Sport</option>
-      <option value="Mental">Mental</option>
-      <option value="Health">Health</option>
-      <option value="Money">Money</option>
+      @for (category of categories; track category) {
+        <option [value]="category.value">{{ category.label }}</option>
+      }
     </select>
   </div>
 

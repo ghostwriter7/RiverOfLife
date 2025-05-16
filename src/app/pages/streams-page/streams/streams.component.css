@@ -1,3 +1,9 @@
+:host {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .no-streams {
   color: var(--clr-secondary);
   text-align: center;
@@ -5,6 +11,7 @@
 
 .menu-list {
   background: var(--bg-secondary);
+  flex-grow: 1;
   padding: var(--space-md);
 }
 

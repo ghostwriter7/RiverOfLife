@@ -21,9 +21,25 @@
   border-radius: var(--radius);
   color: var(--clr-primary);
   cursor: pointer;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr auto;
   padding: var(--space-sm) var(--space-md);
+
+  & .title {
+    font-size: var(--font-lg);
+    grid-column: 1 / span 1;
+  }
+
+  & .description {
+    color: var(--clr-secondary);
+    font-size: var(--font-base);
+    grid-column: 1 / span 1;
+  }
+
+  & .actions {
+    grid-column: 2 / span 1;
+    grid-row: 1 / span 2;
+  }
 
   &.active, &:hover {
     background: var(--bg-accent);

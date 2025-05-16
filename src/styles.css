@@ -40,6 +40,8 @@
 body {
   background: var(--bg-primary);
   font-family: 'Roboto', sans-serif;
+  height: 100vh;
+  overflow-y: hidden;
   margin: 0;
   width: 100vw;
 

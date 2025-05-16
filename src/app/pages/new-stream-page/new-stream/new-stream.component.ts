@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Router } from '@angular/router'
 import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
 import { Stream } from '@app/model/stream.model'
+import { TestIds } from '@app/pages/new-stream-page/new-stream/test-ids.const'
 import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
@@ -23,6 +24,7 @@ export class NewStreamComponent {
   });
   protected readonly error = signal<string | null>(null);
   protected readonly submitted = signal(false);
+  protected readonly testIds = TestIds;
 
   constructor(private readonly streamService: StreamService,
               private readonly router: Router) {

@@ -1,9 +1,15 @@
-<app-page-header title="New Stream" />
+<app-page-header title="New Stream"/>
 
 <form class="new-stream-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="form-field">
     <label for="title">Title</label>
-    <input id="title" type="text" formControlName="title" placeholder="Enter title">
+    <input
+      formControlName="title"
+      id="title"
+      placeholder="Enter title"
+      type="text"
+      [attr.data-testid]="testIds.TitleInput"
+    >
   </div>
 
   <div class="form-field">
@@ -13,7 +19,11 @@
 
   <div class="form-field">
     <label for="category">Category</label>
-    <select id="category" formControlName="category">
+    <select
+      formControlName="category"
+      id="category"
+      [attr.data-testid]="testIds.CategorySelect"
+    >
       <option [value]="null" disabled>Select a category</option>
       <option value="Sport">Sport</option>
       <option value="Mental">Mental</option>
@@ -23,9 +33,16 @@
   </div>
 
   @if (error(); as error) {
-    <p class="error-message">{{ error }}</p>
+    <p class="error-message" [attr.data-testid]="testIds.ErrorMessage">{{ error }}</p>
   }
 
-  <button class="button accent wide" type="submit" [disabled]="!formGroup.valid">Create</button>
+  <button
+    class="button accent wide"
+    type="submit"
+    [attr.data-testid]="testIds.SubmitButton"
+    [disabled]="!formGroup.valid"
+  >
+    Create
+  </button>
 </form>
 

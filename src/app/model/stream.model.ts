@@ -6,7 +6,8 @@ export class Stream {
   constructor(
     public readonly title: string,
     public readonly category: Category,
-    public readonly description: string | null
+    public readonly description: string | null,
+    public id: string | null = null,
   ) {
   }
 }

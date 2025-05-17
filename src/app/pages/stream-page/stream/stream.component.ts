@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { CalendarComponent, } from '@app/components/calendar/calendar.component'
 import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
+import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -14,4 +15,10 @@ import { PageHeaderComponent } from '@app/components/page-header/page-header.com
 })
 export class StreamComponent {
   public readonly streamId = input.required<string>();
+
+  public readonly title = computed(() =>
+    this.streamService.$streams()?.find((stream) => stream.id === this.streamId())?.title || '');
+
+  constructor(private readonly streamService: StreamService) {
+  }
 }

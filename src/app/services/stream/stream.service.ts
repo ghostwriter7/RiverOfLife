@@ -22,7 +22,7 @@ export class StreamService {
     this.$currentMonth = this.currentMonth.asReadonly();
     this.$streams = this.streams.asReadonly();
 
-    this.streamRepository.getAll()
+    this.getAll()
       .then((streams) => this.streams.set(streams))
       .catch((error) => console.error('Failed to load streams', error));
 
@@ -39,16 +39,14 @@ export class StreamService {
     });
   }
 
-  public async deleteStream(stream: Stream): Promise<void> {
-    const streamId = stream.title;
-
+  public async deleteStream({ id }: Stream): Promise<void> {
     await Promise.all([
-        this.streamRepository.deleteStreamByStreamId(streamId),
-        this.streamRepository.deleteStreamDataByStreamId(streamId)
+        this.streamRepository.deleteStreamByStreamId(id!),
+        this.streamRepository.deleteStreamDataByStreamId(id!)
       ]
     );
 
-    this.streams.update((streams) => streams!.filter(({ title }) => title !== streamId));
+    this.streams.update((streams) => streams!.filter((stream) => stream.id !== id));
   }
 
   public async create(stream: Stream): Promise<Stream> {
@@ -57,6 +55,9 @@ export class StreamService {
     if (streams.some(({ title }) => title === stream.title)) {
       throw new Error('Stream with this title already exists.');
     }
+
+    stream.id = stream.title.toLowerCase().replace(/\s/g, '_');
+    stream.createdAt = new Date();
 
     this.streams.update((streams) => [...(streams || []), stream]);
 

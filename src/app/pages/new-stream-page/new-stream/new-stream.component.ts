@@ -46,7 +46,7 @@ export class NewStreamComponent {
     const stream = new Stream(title, category, description);
     try {
       await this.streamService.create(stream);
-      this.router.navigate(['streams', stream.title]);
+      this.router.navigate(['streams', stream.id]);
     } catch (error) {
       this.error.set(error instanceof Error ? error.message : 'Unknown error');
       this.submitted.set(false);

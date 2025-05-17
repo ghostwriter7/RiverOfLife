@@ -4,8 +4,8 @@
   <app-spinner/>
 } @else {
   <ul class="menu-list">
-    @for (stream of streams(); track stream.title) {
-      <li class="menu-list-item" [routerLink]="[stream.title]">
+    @for (stream of streams(); track stream.id) {
+      <li class="menu-list-item" [routerLink]="[stream.id]">
         <span class="material-icons icon">{{ stream.category | categoryToIcon }}</span>
         <span class="title">{{ stream.title }}</span>
         <span class="description">{{ stream.description }}</span>

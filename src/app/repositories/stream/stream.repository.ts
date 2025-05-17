@@ -60,11 +60,22 @@ export class StreamRepository {
     const transaction = db.transaction('streams', 'readonly');
 
     const streamStore = transaction.objectStore('streams');
-    const request = streamStore.getAll();
+    const index = streamStore.index('createdAtIndex');
+    const direction = 'next';
+    const request = index.openCursor(null, direction);
 
     return new Promise((resolve, reject) => {
-      request.onsuccess = () => resolve(request.result
-        .map(({ title, category, description }) => new Stream(title, category, description)));
+      const streams: Stream[] = [];
+      request.onsuccess = (event: Event) => {
+        const cursor = (event.target as IDBRequest).result as IDBCursorWithValue;
+        if (cursor) {
+          const { category, description, id, title } = cursor.value;
+          streams.push(new Stream(title, category, description, id));
+          cursor.continue();
+        } else {
+          resolve(streams);
+        }
+      }
 
       request.onerror = () => reject(request.error);
     });
@@ -104,7 +115,8 @@ export class StreamRepository {
         const db = (event.target as IDBRequest).result as IDBDatabase;
 
         if (!db.objectStoreNames.contains('streams')) {
-          db.createObjectStore('streams', { keyPath: 'title' });
+          const store = db.createObjectStore('streams', { keyPath: 'id' });
+          store.createIndex('createdAtIndex', 'createdAt');
         }
 
         if (!db.objectStoreNames.contains('stream-data')) {

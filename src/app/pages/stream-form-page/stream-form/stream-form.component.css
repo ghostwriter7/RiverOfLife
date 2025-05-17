@@ -2,7 +2,12 @@
   flex-grow: 1;
 }
 
-.new-stream-form {
+.actions {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.stream-form {
   background: var(--bg-secondary);
   border-radius: var(--radius);
   margin: var(--space-md);

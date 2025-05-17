@@ -8,7 +8,12 @@ export const routes: Routes = [
   },
   {
     path: 'new',
-    loadComponent: () => import('./pages/new-stream-page/new-stream/new-stream.component').then(m => m.NewStreamComponent)
+    loadComponent: () => import('@app/pages/stream-form-page/stream-form/stream-form.component').then(m => m.StreamFormComponent)
+  },
+  {
+    data: { isEdit: true },
+    path: 'edit/:streamId',
+    loadComponent: () => import('@app/pages/stream-form-page/stream-form/stream-form.component').then(m => m.StreamFormComponent),
   },
   {
     path: 'streams',

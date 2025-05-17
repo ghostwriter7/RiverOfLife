@@ -1,17 +1,17 @@
 import { provideExperimentalZonelessChangeDetection } from '@angular/core'
 import { Router } from '@angular/router'
 import { Stream } from '@app/model/stream.model'
-import { NewStreamComponent } from '@app/pages/new-stream-page/new-stream/new-stream.component'
-import { TestIds } from '@app/pages/new-stream-page/new-stream/test-ids.const'
+import { StreamFormComponent } from '@app/pages/stream-form-page/stream-form/stream-form.component'
+import { TestIds } from '@app/pages/stream-form-page/stream-form/test-ids.const'
 import { StreamService } from '@app/services/stream/stream.service'
 import { byTestId, createComponentFactory, Spectator } from '@ngneat/spectator/jest'
 
-describe('NewStreamComponent', () => {
+describe('StreamFormComponent', () => {
   const streamServiceMock = { create: jest.fn() };
 
-  let spectator: Spectator<NewStreamComponent>;
+  let spectator: Spectator<StreamFormComponent>;
   const createComponent = createComponentFactory({
-    component: NewStreamComponent,
+    component: StreamFormComponent,
     providers: [{ provide: StreamService, useValue: streamServiceMock }, provideExperimentalZonelessChangeDetection()]
   });
 
@@ -24,7 +24,7 @@ describe('NewStreamComponent', () => {
   const getErrorMessage = () => spectator.query<HTMLParagraphElement>(byTestId(TestIds.ErrorMessage))!;
 
   const TEST_TITLE = 'Test Stream';
-  const TEST_CATEGORY = 'Mental';
+  const TEST_CATEGORY = 'mental';
 
   it('should create', () => expect(spectator.component).toBeDefined());
 

@@ -5,6 +5,18 @@ import { Stream } from '@app/model/stream.model'
 export class StreamRepository {
   private db: IDBDatabase | null = null;
 
+  public async updateStream(stream: Stream): Promise<void> {
+    const db = await this.getDatabase();
+    const transaction = db.transaction('streams', 'readwrite');
+    const store = transaction.objectStore('streams');
+    const request = store.put(stream);
+
+    return new Promise((resolve, reject) => {
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+  }
+
   public async deleteStreamByStreamId(streamId: string): Promise<void> {
     const db = await this.getDatabase();
     const transaction = db.transaction('streams', 'readwrite');
@@ -69,8 +81,16 @@ export class StreamRepository {
       request.onsuccess = (event: Event) => {
         const cursor = (event.target as IDBRequest).result as IDBCursorWithValue;
         if (cursor) {
-          const { category, description, id, title } = cursor.value;
-          streams.push(new Stream(title, category, description, id));
+          const { category, createdAt, description, id, title } = cursor.value;
+          const stream = Stream
+            .builder()
+            .withTitle(title)
+            .withCategory(category)
+            .withDescription(description)
+            .withId(id)
+            .withCreatedAt(createdAt)
+            .build();
+          streams.push(stream);
           cursor.continue();
         } else {
           resolve(streams);

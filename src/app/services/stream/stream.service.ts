@@ -1,4 +1,5 @@
 import { effect, Injectable, signal, Signal } from '@angular/core'
+import { Router } from '@angular/router'
 import { Stream } from '@app/model/stream.model'
 import { StreamRepository } from '@app/repositories/stream/stream.repository'
 
@@ -16,7 +17,9 @@ export class StreamService {
   private readonly streamId = signal<string | null>(null);
   private readonly streams = signal<Stream[] | null>(null);
 
-  constructor(private readonly streamRepository: StreamRepository) {
+  constructor(
+    private readonly router: Router,
+    private readonly streamRepository: StreamRepository) {
     this.$monthData = this.monthData.asReadonly();
     this.$currentYear = this.currentYear.asReadonly();
     this.$currentMonth = this.currentMonth.asReadonly();
@@ -37,6 +40,34 @@ export class StreamService {
 
       this.updateMonthData(streamId, month, year);
     });
+  }
+
+  public async update(streamId: string, { category, description, title }: Stream): Promise<void> {
+    const streamIndex = this.streams()?.findIndex(({ id }) => id === streamId);
+
+    if (streamIndex === -1 || streamIndex === undefined) {
+      throw new Error('Stream not found');
+    }
+
+    const stream = this.streams()?.[streamIndex]!;
+
+    const updatedStream = Stream
+      .builder()
+      .withId(streamId)
+      .withCategory(category)
+      .withDescription(description)
+      .withTitle(title)
+      .withCreatedAt(stream.createdAt)
+      .build();
+
+    this.streams.update((streams) => streams!.with(streamIndex, updatedStream));
+
+    this.streamRepository.updateStream(updatedStream);
+    this.router.navigate(['streams', streamId]);
+  }
+
+  public async editStream(stream: Stream): Promise<void> {
+    await this.router.navigate(['edit', stream.id], { state: stream });
   }
 
   public async deleteStream({ id }: Stream): Promise<void> {

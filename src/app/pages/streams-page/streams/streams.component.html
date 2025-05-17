@@ -10,7 +10,10 @@
         <span class="title">{{ stream.title }}</span>
         <span class="description">{{ stream.description }}</span>
         <div class="actions">
-          <button class="button danger" (click)="delete($event, stream)">
+          <button class="button secondary small" (click)="edit($event, stream)">
+            <span class="material-icons">edit</span>
+          </button>
+          <button class="button danger small" (click)="delete($event, stream)">
             <span class="material-icons">delete</span>
           </button>
         </div>

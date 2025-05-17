@@ -1,6 +1,6 @@
-<app-page-header title="New Stream"/>
+<app-page-header [title]="title"/>
 
-<form class="new-stream-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+<form class="stream-form" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
   <div class="form-field">
     <label for="title">Title</label>
     <input
@@ -35,13 +35,25 @@
     <p class="error-message" [attr.data-testid]="testIds.ErrorMessage">{{ error }}</p>
   }
 
-  <button
-    class="button accent wide"
-    type="submit"
-    [attr.data-testid]="testIds.SubmitButton"
-    [disabled]="!formGroup.valid"
-  >
-    Create
-  </button>
+  <div class="actions">@if (isEdit) {
+    <button
+      class="button wide"
+      type="button"
+      [attr.data-testid]="testIds.CancelButton"
+      (click)="cancel()"
+    >
+      Cancel
+    </button>
+  }
+
+    <button
+      class="button accent wide"
+      type="submit"
+      [attr.data-testid]="testIds.SubmitButton"
+      [disabled]="!formGroup.valid"
+    >
+      {{ submitButtonLabel }}
+    </button>
+  </div>
 </form>
 

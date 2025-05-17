@@ -43,6 +43,8 @@
   }
 
   & .actions {
+    display: flex;
+    gap: var(--space-sm);
     grid-column: 3 / span 1;
     grid-row: 1 / span 2;
   }

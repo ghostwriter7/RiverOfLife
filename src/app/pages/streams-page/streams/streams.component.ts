@@ -29,4 +29,9 @@ export class StreamsComponent {
     event.stopPropagation();
     this.streamService.deleteStream(stream);
   }
+
+  protected edit(event: Event, stream: Stream): void {
+    event.stopPropagation();
+    this.streamService.editStream(stream);
+  }
 }

@@ -10,8 +10,12 @@
   gap: 0.5rem;
   justify-content: center;
   outline: none;
-  padding: 0.5rem .75rem;
+  padding: var(--space-sm) var(--space-md);
   transition: all 0.2s ease-in-out;
+
+  &.small {
+    padding: var(--space-xs) var(--space-sm);
+  }
 
   &:hover {
     filter: brightness(1.1);

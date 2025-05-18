@@ -1,21 +1,27 @@
 @if (showAdd()) {
-  <button class="button accent" [routerLink]="['/new']">
+  <button class="button accent" [attr.data-testid]="testIds.AddButton" [routerLink]="['/new']">
     <span class="material-icons">add</span>
   </button>
 }
 
 @if (showNavigationBetweenStreams()) {
-  <button class="button accent" (click)="goToPreviousStream()">
+  <button
+    class="button accent"
+    [attr.data-testid]="testIds.PreviousStreamButton"
+    (click)="streamService.goToPreviousStream()">
     <span class="material-icons">arrow_back</span>
   </button>
 
-  <button class="button accent" (click)="goToNextStream()">
+  <button
+    class="button accent"
+    [attr.data-testid]="testIds.NextStreamButton"
+    (click)="streamService.goToNextStream()">
     <span class="material-icons">arrow_forward</span>
   </button>
 }
 
 @if (showGoToList()) {
-  <button class="button accent" [routerLink]="['/streams']">
+  <button class="button accent" [attr.data-testid]="testIds.StreamListButton" [routerLink]="['/streams']">
     <span class="material-icons">list</span>
   </button>
 }

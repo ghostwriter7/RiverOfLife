@@ -42,6 +42,33 @@ export class StreamService {
     });
   }
 
+  public goToNextStream(): void {
+    const streams = this.streams()!;
+    const streamIndex = this.getIndexOfCurrentStream();
+
+    const nextStreamIndex = streamIndex === streams.length - 1 ? 0 : streamIndex + 1;
+    const nextStreamId = streams[nextStreamIndex].id!;
+
+    this.router.navigate(['streams', nextStreamId]);
+  }
+
+  public goToPreviousStream(): void {
+    const streamIndex = this.getIndexOfCurrentStream();
+    const streams = this.streams()!;
+
+    const previousStreamIndex = streamIndex === 0 ? streams.length - 1 : streamIndex - 1;
+    const previousStreamId = streams[previousStreamIndex].id!;
+
+    this.router.navigate(['streams', previousStreamId]);
+  }
+
+  private getIndexOfCurrentStream(): number {
+    const streamId = this.streamId();
+    const streams = this.streams();
+    if (!streamId || !streams) throw new Error('Stream not found');
+    return streams.findIndex(({ id }) => id === streamId);
+  }
+
   public async update(streamId: string, { category, description, title }: Stream): Promise<Stream> {
     const streamIndex = this.streams()?.findIndex(({ id }) => id === streamId);
 

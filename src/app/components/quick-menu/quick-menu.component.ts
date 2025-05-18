@@ -1,5 +1,7 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { RouterLink } from '@angular/router'
+import { ChangeDetectionStrategy, Component, computed, effect, signal } from '@angular/core';
+import { RouterLink, ActivatedRoute } from '@angular/router'
+import { CurrentRouteProvider } from '@app/services/current-route-provider/current-route-provider.service'
+import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
   selector: 'app-quick-menu',
@@ -11,5 +13,35 @@ import { RouterLink } from '@angular/router'
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QuickMenuComponent {
+  protected readonly showNavigationBetweenStreams = computed(() => this.isBackAndForthAllowed() && (this.streamService.$streams()?.length ?? 0) > 1);
+  protected readonly showAdd = signal(false);
+  protected readonly showGoToList = signal(false);
+  private readonly isBackAndForthAllowed = signal(false);
 
+  constructor(
+    private readonly currentRouteProvider: CurrentRouteProvider,
+    private readonly streamService: StreamService) {
+
+    effect(() => this.updateAvailableOptions(this.currentRouteProvider.$currentRoute()));
+  }
+
+  private updateAvailableOptions(route: ActivatedRoute): void {
+    const { url, params } = route.snapshot;
+
+    const showAdd = !['new', 'edit'].includes(url[0]?.path);
+    const showGoToList = (url[0]?.path !== 'streams' || Object.hasOwn(params, 'streamId'));
+    const isBackAndForthAllowed = showAdd && showGoToList;
+
+    this.showAdd.set(showAdd);
+    this.showGoToList.set(showGoToList);
+    this.isBackAndForthAllowed.set(isBackAndForthAllowed);
+  }
+
+  protected goToPreviousStream(): void {
+    this.streamService.goToPreviousStream();
+  }
+
+  protected goToNextStream(): void {
+    this.streamService.goToNextStream();
+  }
 }

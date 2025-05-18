@@ -1,6 +1,21 @@
-<button class="button accent" [routerLink]="['/new']">
-  <span class="material-icons">add</span>
-</button>
-<button class="button accent" [routerLink]="['/streams']">
-  <span class="material-icons">list</span>
-</button>
+@if (showAdd()) {
+  <button class="button accent" [routerLink]="['/new']">
+    <span class="material-icons">add</span>
+  </button>
+}
+
+@if (showNavigationBetweenStreams()) {
+  <button class="button accent" (click)="goToPreviousStream()">
+    <span class="material-icons">arrow_back</span>
+  </button>
+
+  <button class="button accent" (click)="goToNextStream()">
+    <span class="material-icons">arrow_forward</span>
+  </button>
+}
+
+@if (showGoToList()) {
+  <button class="button accent" [routerLink]="['/streams']">
+    <span class="material-icons">list</span>
+  </button>
+}

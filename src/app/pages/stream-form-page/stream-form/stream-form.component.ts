@@ -72,8 +72,8 @@ export class StreamFormComponent {
 
     const stream = new Stream(title, category, description);
     try {
-      await (this.isEdit ? this.streamService.update(this.streamId!, stream) : this.streamService.create(stream));
-      this.router.navigate(['streams', stream.id]);
+      const { id } = await (this.isEdit ? this.streamService.update(this.streamId!, stream) : this.streamService.create(stream));
+      this.router.navigate(['streams', id]);
     } catch (error) {
       this.error.set(error instanceof Error ? error.message : 'Unknown error');
       this.submitted.set(false);

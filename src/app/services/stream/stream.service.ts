@@ -42,7 +42,7 @@ export class StreamService {
     });
   }
 
-  public async update(streamId: string, { category, description, title }: Stream): Promise<void> {
+  public async update(streamId: string, { category, description, title }: Stream): Promise<Stream> {
     const streamIndex = this.streams()?.findIndex(({ id }) => id === streamId);
 
     if (streamIndex === -1 || streamIndex === undefined) {
@@ -64,6 +64,8 @@ export class StreamService {
 
     this.streamRepository.updateStream(updatedStream);
     this.router.navigate(['streams', streamId]);
+
+    return updatedStream;
   }
 
   public async editStream(stream: Stream): Promise<void> {

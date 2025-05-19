@@ -4,6 +4,7 @@
 @import './styles/form-field.css';
 @import './styles/list.css';
 @import './styles/anchor.css';
+@import './styles/scrollbar.css';
 
 :root {
   --bg-primary: #1a1a1a;

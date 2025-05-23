@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { CalendarComponent, } from '@app/components/calendar/calendar.component'
 import { PageHeaderComponent } from '@app/components/page-header/page-header.component'
+import { ViewToggleComponent } from '@app/pages/stream-page/view-toggle/view-toggle.component'
 import { StreamService } from '@app/services/stream/stream.service'
 
 @Component({
@@ -8,7 +9,8 @@ import { StreamService } from '@app/services/stream/stream.service'
   selector: 'app-stream',
   imports: [
     PageHeaderComponent,
-    CalendarComponent
+    CalendarComponent,
+    ViewToggleComponent
   ],
   templateUrl: './stream.component.html',
   styleUrl: './stream.component.css'

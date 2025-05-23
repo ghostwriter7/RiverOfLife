@@ -1,0 +1,14 @@
+<button
+  class="button small"
+  [class.accent]="isCalendarViewActive()"
+  (click)="activateView('calendar')"
+>
+  <span class="material-icons">calendar_month</span>
+</button>
+<button
+  class="button small"
+  [class.accent]="isQuizViewActive()"
+  (click)="activateView('quiz')"
+>
+  <span class="material-icons">quiz</span>
+</button>

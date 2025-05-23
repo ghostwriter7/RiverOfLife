@@ -1,0 +1,11 @@
+:host {
+  align-items: center;
+  background: var(--bg-secondary);
+  border-radius: var(--radius);
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: flex-end;
+  margin-inline: auto var(--space-md);
+  padding: var(--space-sm);
+  width: fit-content;
+}

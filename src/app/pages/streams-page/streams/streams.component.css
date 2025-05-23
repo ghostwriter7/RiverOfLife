@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
+  padding-inline: var(--space-md);
 }
 
 .no-streams {
@@ -11,15 +12,15 @@
 }
 
 .menu-list {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
   flex-grow: 1;
   overflow-y: auto;
-  padding: var(--space-md);
+  padding-block: var(--space-md);
 }
 
 .menu-list-item {
   align-items: center;
-  background: var(--bg-primary);
+  background: var(--bg-secondary);
   border-radius: var(--radius);
   color: var(--clr-primary);
   column-gap: var(--space-md);

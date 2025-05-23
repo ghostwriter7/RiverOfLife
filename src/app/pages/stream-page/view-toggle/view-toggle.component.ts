@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, model } from '@angular/core';
+import { StreamView } from '@app/types/stream.view'
 
 @Component({
   selector: 'app-view-toggle',
@@ -7,12 +8,13 @@ import { ChangeDetectionStrategy, Component, computed, signal } from '@angular/c
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewToggleComponent {
-  protected readonly isQuizViewActive = computed(() => this.activeView() === 'quiz');
-  protected readonly isCalendarViewActive = computed(() => this.activeView() === 'calendar');
+  public view = model<StreamView>('calendar');
 
-  protected readonly activeView = signal<'calendar' | 'quiz'>('calendar')
+  protected readonly isQuizViewActive = computed(() => this.view() === 'questions');
+  protected readonly isCalendarViewActive = computed(() => this.view() === 'calendar');
 
-  protected activateView(view: 'calendar' | 'quiz'): void {
-    this.activeView.set(view);
+
+  protected activateView(view: StreamView): void {
+    this.view.set(view);
   }
 }

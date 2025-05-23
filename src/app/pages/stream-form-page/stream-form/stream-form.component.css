@@ -3,6 +3,7 @@
   flex-direction: column;
   flex-grow: 1;
   overflow: hidden;
+  padding-inline: var(--space-md);
 }
 
 .actions {
@@ -15,6 +16,6 @@
   border-radius: var(--radius);
   flex-grow: 1;
   overflow-y: auto;
-  margin: var(--space-md);
-  padding: var(--space-md);
+  margin-block: var(--space-md);
+  padding: var(--space-sm);
 }

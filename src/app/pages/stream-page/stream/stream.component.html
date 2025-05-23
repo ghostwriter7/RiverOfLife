@@ -1,3 +1,8 @@
 <app-page-header [title]="title()" />
-<app-view-toggle />
-<app-calendar [streamId]="streamId()" />
+<app-view-toggle [(view)]="view" />
+
+@if (view === 'calendar') {
+  <app-calendar [streamId]="streamId()" />
+} @else {
+  <app-questions />
+}

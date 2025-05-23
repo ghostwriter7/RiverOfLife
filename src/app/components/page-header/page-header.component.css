@@ -2,7 +2,7 @@
   background: var(--bg-accent);
   border-radius: var(--radius);
   color: var(--clr-accent);
-  margin: var(--space-md);
+  margin-block: var(--space-md);
   padding: var(--space-md);
   text-align: center;
 }

@@ -5,7 +5,7 @@ header {
   color: var(--clr-secondary);
   display: flex;
   justify-content: space-between;
-  margin: var(--space-md);
+  margin-block: var(--space-md);
   padding: var(--space-sm);
   text-align: center;
 }
@@ -16,7 +16,7 @@ header {
   color: var(--clr-secondary);
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  margin: var(--space-md);
+  margin-block: var(--space-md);
   padding: var(--space-md);
   place-items: center;
 }

@@ -1,5 +1,8 @@
 :host {
+  display: flex;
+  flex-direction: column;
   flex-grow: 1;
+  overflow: hidden;
 }
 
 .actions {
@@ -10,6 +13,8 @@
 .stream-form {
   background: var(--bg-secondary);
   border-radius: var(--radius);
+  flex-grow: 1;
+  overflow-y: auto;
   margin: var(--space-md);
   padding: var(--space-md);
 }

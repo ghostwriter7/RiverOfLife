@@ -3,43 +3,65 @@
   flex-direction: column;
   gap: var(--space-sm);
   margin-bottom: var(--space-md);
+
+  & label {
+    color: var(--clr-secondary);
+    font-size: 0.875rem;
+  }
+
+  & input,
+  & textarea,
+  & select {
+    background: var(--bg-primary);
+    border: 1px solid var(--clr-border);
+    border-radius: var(--radius);
+    color: var(--clr-primary);
+    font-family: inherit;
+    font-size: 1rem;
+    padding: var(--space-sm);
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  & input:focus,
+  & textarea:focus,
+  & select:focus {
+    border-color: var(--bg-accent);
+  }
+
+  & textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  & select {
+    cursor: pointer;
+  }
+
+  & select option {
+    background: var(--bg-primary);
+    color: var(--clr-primary);
+  }
+
+  &.inline {
+    flex-direction: row;
+  }
 }
 
-.form-field label {
-  color: var(--clr-secondary);
-  font-size: 0.875rem;
-}
-
-.form-field input,
-.form-field textarea,
-.form-field select {
+fieldset {
   background: var(--bg-primary);
   border: 1px solid var(--clr-border);
   border-radius: var(--radius);
-  color: var(--clr-primary);
-  font-family: inherit;
-  font-size: 1rem;
-  padding: var(--space-sm);
-  outline: none;
-  transition: border-color 0.2s;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+  padding: var(--space-md);
 }
 
-.form-field input:focus,
-.form-field textarea:focus,
-.form-field select:focus {
-  border-color: var(--bg-accent);
+legend {
+  color: var(--clr-secondary);
+  font-size: var(--font-sm);
+  padding: 0 var(--space-xs);
 }
 
-.form-field textarea {
-  resize: vertical;
-  min-height: 100px;
-}
-
-.form-field select {
-  cursor: pointer;
-}
-
-.form-field select option {
-  background: var(--bg-primary);
-  color: var(--clr-primary);
-}

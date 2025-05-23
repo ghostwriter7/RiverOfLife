@@ -75,3 +75,7 @@ dialog {
   font-weight: 600;
   padding: var(--space-sm);
 }
+
+.grow {
+  flex-grow: 1;
+}

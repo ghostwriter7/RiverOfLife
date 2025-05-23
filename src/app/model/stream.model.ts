@@ -1,15 +1,14 @@
+import { Question } from '@app/interfaces/question.interface'
 import { Category } from '@app/types/category.type'
 
 export class Stream {
   public createdAt: Date | null = null;
-
-  constructor(
-    public title: string,
-    public category: Category,
-    public description: string | null,
-    public id: string | null = null,
-  ) {
-  }
+  public questionsOnSuccess: Question[] = [];
+  public questionsOnFailure: Question[] = [];
+  public title!: string;
+  public category!: Category;
+  public description!: string | null;
+  public id: string | null = null;
 
   public copy(): Stream {
     return Stream
@@ -33,6 +32,8 @@ class StreamBuilder {
   private description: string | null = null;
   private category: Category | null = null;
   private createdAt: Date | null = null;
+  private questionsOnSuccess: Question[] = [];
+  private questionsOnFailure: Question[] = [];
 
   public withCreatedAt(createdAt: Date | null): StreamBuilder {
     this.createdAt = createdAt;
@@ -59,6 +60,16 @@ class StreamBuilder {
     return this;
   }
 
+  public withQuestionsOnSuccess(questions: Question[]): StreamBuilder {
+    this.questionsOnSuccess = questions;
+    return this;
+  }
+
+  public withQuestionsOnFailure(questions: Question[]): StreamBuilder {
+    this.questionsOnFailure = questions;
+    return this;
+  }
+
   public build(): Stream {
     if (!this.title) {
       throw new Error('Title is required');
@@ -68,8 +79,14 @@ class StreamBuilder {
       throw new Error('Category is required');
     }
 
-    const stream = new Stream(this.title, this.category, this.description, this.id);
+    const stream = new Stream();
+    stream.title = this.title;
+    stream.category = this.category;
+    stream.description = this.description;
+    stream.id = this.id;
     stream.createdAt = this.createdAt;
+    stream.questionsOnSuccess = this.questionsOnSuccess;
+    stream.questionsOnFailure = this.questionsOnFailure;
 
     return stream;
   }

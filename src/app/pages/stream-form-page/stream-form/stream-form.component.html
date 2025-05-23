@@ -31,20 +31,62 @@
     </select>
   </div>
 
+  <fieldset>
+    <legend>Questions On Success</legend>
+    @for (questionFormGroup of formGroup.controls.questionsOnSuccess.controls; track questionFormGroup) {
+      @if (!questionFormGroup.value.inactive) {
+        <div class="form-field inline">
+          <input
+            class="grow"
+            placeholder="Enter question"
+            type="text"
+            [formControl]="questionFormGroup.controls.question"
+          />
+          <button class="button danger" type="button" (click)="removeSuccessQuestion($index)">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      }
+    }
+    <button class="button accent wide" type="button" (click)="addSuccessQuestion()">Add Question</button>
+  </fieldset>
+
+  <fieldset>
+    <legend>Questions On Failure</legend>
+    @for (questionFormGroup of formGroup.controls.questionsOnFailure.controls; track questionFormGroup) {
+      @if (!questionFormGroup.value.inactive) {
+        <div class="form-field inline">
+          <input
+            class="grow"
+            placeholder="Enter question"
+            type="text"
+            [formControl]="questionFormGroup.controls.question"
+          />
+          <button class="button danger" type="button" (click)="removeFailureQuestion($index)">
+            <span class="material-icons">delete</span>
+          </button>
+        </div>
+      }
+    }
+
+    <button class="button accent wide" type="button" (click)="addFailureQuestion()">Add Question</button>
+  </fieldset>
+
   @if (error(); as error) {
     <p class="error-message" [attr.data-testid]="testIds.ErrorMessage">{{ error }}</p>
   }
 
-  <div class="actions">@if (isEdit) {
-    <button
-      class="button wide"
-      type="button"
-      [attr.data-testid]="testIds.CancelButton"
-      (click)="cancel()"
-    >
-      Cancel
-    </button>
-  }
+  <div class="actions">
+    @if (isEdit) {
+      <button
+        class="button wide"
+        type="button"
+        [attr.data-testid]="testIds.CancelButton"
+        (click)="cancel()"
+      >
+        Cancel
+      </button>
+    }
 
     <button
       class="button accent wide"

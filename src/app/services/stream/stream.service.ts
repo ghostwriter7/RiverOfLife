@@ -1,6 +1,8 @@
 import { effect, Injectable, signal, Signal } from '@angular/core'
 import { Router } from '@angular/router'
+import { createUUID } from '@app/functions/create-uuid.function'
 import { StreamHelper } from '@app/helpers/stream-helper'
+import { Question } from '@app/interfaces/question.interface'
 import { Stream } from '@app/model/stream.model'
 import { StreamRepository } from '@app/repositories/stream/stream.repository'
 
@@ -51,7 +53,13 @@ export class StreamService {
     this.router.navigate(['streams', StreamHelper.getPreviousStreamId(this.streamId()!, this.streams()!)]);
   }
 
-  public async update(streamId: string, { category, description, title }: Stream): Promise<Stream> {
+  public async update(streamId: string, {
+    category,
+    description,
+    title,
+    questionsOnFailure,
+    questionsOnSuccess
+  }: Stream): Promise<Stream> {
     const streamIndex = this.streams()?.findIndex(({ id }) => id === streamId);
 
     if (streamIndex === -1 || streamIndex === undefined) {
@@ -59,6 +67,7 @@ export class StreamService {
     }
 
     const stream = this.streams()?.[streamIndex]!;
+    const withId = (question: Question) => question.id ? question : ({ ...question, id: createUUID() });
 
     const updatedStream = Stream
       .builder()
@@ -67,6 +76,8 @@ export class StreamService {
       .withDescription(description)
       .withTitle(title)
       .withCreatedAt(stream.createdAt)
+      .withQuestionsOnSuccess(questionsOnSuccess.map(withId))
+      .withQuestionsOnFailure(questionsOnFailure.map(withId))
       .build();
 
     this.streams.update((streams) => streams!.with(streamIndex, updatedStream));
@@ -100,6 +111,10 @@ export class StreamService {
 
     stream.id = stream.title.toLowerCase().replace(/\s/g, '_');
     stream.createdAt = new Date();
+
+    const withId = (question: Question) => ({ ...question, id: createUUID(), inactive: false });
+    stream.questionsOnSuccess = stream.questionsOnSuccess.map(withId);
+    stream.questionsOnFailure = stream.questionsOnFailure.map(withId);
 
     this.streams.update((streams) => [...(streams || []), stream]);
 
